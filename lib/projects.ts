@@ -12,6 +12,7 @@ export interface ProjectSummary {
   color: string;
   image: string | null;
   shortDescription: string;
+  description: string;
   link: string | null;
   openInNewTab: boolean;
   lastModified: number;
@@ -209,6 +210,7 @@ function toSummary(p: InternalProject): ProjectSummary {
     color: p.color,
     image: p.image,
     shortDescription: p.shortDescription,
+    description: p.description,
     link: p.link,
     openInNewTab: p.openInNewTab,
     lastModified: p.lastModified,

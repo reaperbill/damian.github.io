@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ProjectSummary, ProjectDetail } from '@/lib/projects';
+import type { ProjectSummary } from '@/lib/projects';
 
 const SECTION_ORDER = ['Software', 'Data', 'Tool'] as const;
 type SectionName = (typeof SECTION_ORDER)[number];
@@ -85,22 +85,7 @@ function ProjectCard({
   );
 }
 
-function ProjectModal({ projectId, onClose }: { projectId: string; onClose: () => void }) {
-  const [detail, setDetail] = useState<ProjectDetail | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setDetail(null);
-    setError(null);
-    fetch(`/api/project/${encodeURIComponent(projectId)}`)
-      .then((r) => {
-        if (!r.ok) throw new Error(`Status ${r.status}`);
-        return r.json() as Promise<ProjectDetail>;
-      })
-      .then(setDetail)
-      .catch((e: Error) => setError(e.message));
-  }, [projectId]);
-
+function ProjectModal({ project, onClose }: { project: ProjectSummary; onClose: () => void }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
@@ -117,30 +102,22 @@ function ProjectModal({ projectId, onClose }: { projectId: string; onClose: () =
           ×
         </button>
         <div className="project-details-content">
-          {error ? (
-            <p className="project-detail-error">Unable to load project details: {error}</p>
-          ) : !detail ? (
-            <p>Loading project details&hellip;</p>
-          ) : (
-            <>
-              <h3>{detail.title}</h3>
-              <p className="project-detail-category">{detail.category}</p>
-              <p>{detail.description}</p>
-              <div className="project-tags">
-                {detail.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-              {detail.link != null && (
-                <a
-                  className="project-link"
-                  href={detail.link}
-                  {...(detail.openInNewTab ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-                >
-                  Open Project →
-                </a>
-              )}
-            </>
+          <h3>{project.title}</h3>
+          <p className="project-detail-category">{project.category}</p>
+          <p>{project.description}</p>
+          <div className="project-tags">
+            {project.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
+            ))}
+          </div>
+          {project.link != null && (
+            <a
+              className="project-link"
+              href={project.link}
+              {...(project.openInNewTab ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
+            >
+              Open Project →
+            </a>
           )}
         </div>
       </div>
@@ -164,7 +141,6 @@ function selectBalanced(all: ProjectSummary[], limit: number): ProjectSummary[] 
     }
   }
 
-  // fill remaining slots by weight from unpicked projects
   for (const p of all) {
     if (result.length >= limit) break;
     if (!picked.has(p.id)) result.push(p);
@@ -174,38 +150,22 @@ function selectBalanced(all: ProjectSummary[], limit: number): ProjectSummary[] 
 }
 
 export default function Projects({
+  personal,
+  school,
   limit,
   showSections,
 }: {
+  personal: ProjectSummary[];
+  school: ProjectSummary[];
   limit?: number;
   showSections?: boolean;
 }) {
-  const [personal, setPersonal] = useState<ProjectSummary[]>([]);
-  const [school, setSchool] = useState<ProjectSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [activeModal, setActiveModal] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch('/api/projects')
-      .then((r) => {
-        if (!r.ok) throw new Error(`Unable to load projects (status ${r.status})`);
-        return r.json() as Promise<{ personal: ProjectSummary[]; school: ProjectSummary[] }>;
-      })
-      .then((data) => {
-        setPersonal(data.personal ?? []);
-        setSchool(data.school ?? []);
-      })
-      .catch((e: Error) => setError(e.message))
-      .finally(() => setLoading(false));
-  }, []);
-
   const closeModal = useCallback(() => setActiveModal(null), []);
 
-  const allSorted: ProjectSummary[] = [
-    ...personal,
-    ...school,
-  ].sort((a, b) => b.weight - a.weight || b.lastModified - a.lastModified);
+  const allSorted: ProjectSummary[] = [...personal, ...school].sort(
+    (a, b) => b.weight - a.weight || b.lastModified - a.lastModified,
+  );
 
   const displayed = limit ? selectBalanced(allSorted, limit) : allSorted;
 
@@ -216,6 +176,8 @@ export default function Projects({
     }
   }
 
+  const activeProject = activeModal ? allSorted.find((p) => p.id === activeModal) ?? null : null;
+
   const renderGrid = (projects: ProjectSummary[]) => (
     <div className="projects-grid">
       {projects.map((p) => (
@@ -225,33 +187,6 @@ export default function Projects({
   );
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="projects-grid">
-          <div className="project-card">
-            <div className="project-image" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }} />
-            <div className="project-content">
-              <h3>Loading projects&hellip;</h3>
-              <p>Fetching project metadata from the server.</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (error) {
-      return (
-        <div className="projects-grid">
-          <div className="project-card">
-            <div className="project-content">
-              <h3>Unable to load projects</h3>
-              <p>{error}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     if (showSections) {
       return (
         <>
@@ -289,7 +224,7 @@ export default function Projects({
         <h2>{limit ? 'Featured Projects' : 'All Projects'}</h2>
         {renderContent()}
       </div>
-      {activeModal && <ProjectModal projectId={activeModal} onClose={closeModal} />}
+      {activeProject && <ProjectModal project={activeProject} onClose={closeModal} />}
     </section>
   );
 }
