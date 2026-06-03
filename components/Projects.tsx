@@ -4,14 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ProjectSummary } from '@/lib/projects';
+import { IMG_DEFAULT_SOFTWARE, IMG_DEFAULT_DATA, IMG_DEFAULT_TOOL } from '@/lib/images';
 
 const SECTION_ORDER = ['Software', 'Data', 'Tool'] as const;
 type SectionName = (typeof SECTION_ORDER)[number];
 
 const CATEGORY_DEFAULT_IMAGE: Record<string, string> = {
-  Software: '@/images/default-software.svg',
-  Data:     '@/images/default-data.svg',
-  Tool:     '@/images/default-tool.svg',
+  Software: IMG_DEFAULT_SOFTWARE,
+  Data:     IMG_DEFAULT_DATA,
+  Tool:     IMG_DEFAULT_TOOL,
 };
 
 function useScrollReveal(ref: React.RefObject<HTMLElement | null>) {

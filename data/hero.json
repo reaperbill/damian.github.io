@@ -2,6 +2,5 @@
   "name": "Damian Stevenson",
   "title": "Full-Stack Engineer | Backend · AI · Data",
   "ctaLabel": "Learn More",
-  "ctaHref": "#projects",
-  "backgroundImage": "@/images/hero-bg.svg"
+  "ctaHref": "#projects"
 }

@@ -1,25 +1,16 @@
 import Image from 'next/image';
 import heroData from '@/data/hero.json';
+import { IMG_HERO_BG } from '@/lib/images';
 
 export default function Hero() {
-  const { name, title, ctaLabel, ctaHref, backgroundImage } = heroData;
+  const { name, title, ctaLabel, ctaHref } = heroData;
 
   return (
     <section id="home" className="hero">
-      {backgroundImage && (
-        <>
-          <div className="hero-bg">
-            <Image
-              src={backgroundImage}
-              alt=""
-              fill
-              priority
-              style={{ objectFit: 'cover', objectPosition: 'top center' }}
-            />
-          </div>
-          <div className="hero-overlay" />
-        </>
-      )}
+      <div className="hero-bg">
+        <Image src={IMG_HERO_BG} alt="" fill priority style={{ objectFit: 'cover', objectPosition: 'top center' }} />
+      </div>
+      <div className="hero-overlay" />
 
       <div className="container hero-container">
         <div className="hero-content">
