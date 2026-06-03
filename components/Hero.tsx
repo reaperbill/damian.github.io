@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import heroData from '@/data/hero.json';
-import { IMG_HERO_BG } from '@/lib/images';
+import heroBg from '@images/hero-bg.svg';
 
 export default function Hero() {
   const { name, title, ctaLabel, ctaHref } = heroData;
@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section id="home" className="hero">
       <div className="hero-bg">
-        <Image src={IMG_HERO_BG} alt="" fill priority style={{ objectFit: 'cover', objectPosition: 'top center' }} />
+        <Image src={heroBg} alt="" fill priority style={{ objectFit: 'cover', objectPosition: 'top center' }} />
       </div>
       <div className="hero-overlay" />
 
