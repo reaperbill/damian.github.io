@@ -4,9 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ProjectSummary } from '@/lib/projects';
-import datapci from '@images/default-data.svg';
-import toolpci from '@images/default-tool.svg';
-import softwarepci from '@images/default-software.svg';
+import datapci from 'Damian/images/default-data.svg';
+import toolpci from 'Damian/images/default-tool.svg';
+import softwarepci from 'Damian/images/default-software.svg';
 
 const SECTION_ORDER = ['Software', 'Data', 'Tool'] as const;
 type SectionName = (typeof SECTION_ORDER)[number];
