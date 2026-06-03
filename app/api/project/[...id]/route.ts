@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getProjectById } from '@/lib/projects';
+import { getProjectById, getProjects } from '@/lib/projects';
 
-export const dynamic = 'force-dynamic';
+export async function generateStaticParams() {
+  const { personal, school } = await getProjects();
+  return [...personal, ...school].map((p) => ({
+    id: p.id.split('/'),
+  }));
+}
 
 export async function GET(
   _request: Request,
