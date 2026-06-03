@@ -2,7 +2,7 @@
 
 Personal portfolio site for Damian Stevenson, a full-stack engineer and data analyst. Built with Next.js 15 and deployed to GitHub Pages.
 
-**Live site:** [reaperbill.github.io](https://reaperbill.github.io)
+**Live site:** [reaperbill.github.io/Damian](https://reaperbill.github.io/Damian)
 
 ## Stack
 
