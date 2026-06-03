@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Navbar from '../components/Navbar';
+import HashScroller from '../components/HashScroller';
 
 export const metadata: Metadata = {
   title: 'Damian Stevenson - Portfolio',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body suppressHydrationWarning>
         <Navbar />
+        <HashScroller />
         {children}
         <footer className="footer">
           <div className="container">
