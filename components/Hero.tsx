@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import heroData from '@/data/hero.json';
-import heroBg from 'Damian/images/hero-bg.svg';
+import heroBg from '../images/hero-bg.svg';
 
 export default function Hero() {
   const { name, title, ctaLabel, ctaHref } = heroData;
