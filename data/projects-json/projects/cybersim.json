@@ -1,0 +1,20 @@
+{
+  "title": "CyberSim Arena",
+  "description": "A dual-mode cybersecurity simulation game built with React, Python, and Claude. A user can choose between red team (offense) or blue team (defense) roles. The red team attempts to breach a simulated network using various attack techniques with a ML opponent that utilizes Isolation Forest anomaly detection, while the blue team implements defensive measures to protect the network with a ML opponent uses Markov chain modeling. The game features real-time feedback via Claude, interactive scenarios with varying difficulty levels, and a dynamic scoring system based on the success of attacks and defenses. Players can learn about cybersecurity concepts and strategies in an engaging, gamified environment.",
+  "shortDescription": "A dual-mode cybersecurity simulation game built with React, Python, and Claude.",
+  "tags": [
+    "React",
+    "Typescript",
+    "Python",
+    "AI Engineering",
+    "Machine Learning",
+    "Cybersecurity",
+    "Full Stack Development"
+  ],
+  "color": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+  "link": null,
+  "openInNewTab": false,
+  "weight": 95,
+  "category": "Software",
+  "type": "Personal"
+}

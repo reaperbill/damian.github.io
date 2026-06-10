@@ -14,5 +14,6 @@
   "openInNewTab": false,
   "weight": 28,
   "subcategory": "Analysis",
-  "category": "Data"
+  "category": "Data",
+  "type": "School"
 }

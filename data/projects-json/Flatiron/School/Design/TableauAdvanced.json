@@ -15,5 +15,6 @@
   "openInNewTab": true,
   "weight": 40,
   "subcategory": "Design",
-  "category": "Data"
+  "category": "Data",
+  "type" : "School"
 }

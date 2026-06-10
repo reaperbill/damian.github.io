@@ -65,7 +65,9 @@ function ProjectCard({
         <h3>{project.title}</h3>
         <p>{project.shortDescription}</p>
         <div className="project-tags">
+          <span className="project-type">{project.type}</span>
           <span>{project.category}</span>
+
           {project.tags.slice(0, 3).map((tag) => (
             <span key={tag}>{tag}</span>
           ))}

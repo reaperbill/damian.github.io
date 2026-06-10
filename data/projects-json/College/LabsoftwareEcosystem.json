@@ -16,5 +16,6 @@
   "openInNewTab": true,
   "weight": 90,
   "subcategory": "Data Engineering",
-  "category": "Software"
+  "category": "Software",
+  "type": "Capstone"
 }

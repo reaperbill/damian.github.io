@@ -6,6 +6,7 @@ import path from 'path';
 export interface ProjectSummary {
   id: string;
   title: string;
+  type: string;
   category: string;
   subcategory: string | null;
   tags: string[];
@@ -22,6 +23,7 @@ export interface ProjectSummary {
 export interface ProjectDetail {
   id: string;
   title: string;
+  type: string;
   category: string;
   tags: string[];
   color: string;
@@ -43,11 +45,13 @@ interface ProjectMetadata {
   weight?: number;
   subcategory?: string;
   category?: string;
+  type?: string;
 }
 
 interface InternalProject {
   id: string;
   title: string;
+  type: string;
   category: string;
   subcategory: string | null;
   shortDescription: string;
@@ -127,6 +131,7 @@ async function buildCache(): Promise<ProjectCache> {
 
     const categoryLabel = isSchool ? 'School' : 'Personal';
     const category = typeof meta.category === 'string' ? meta.category : categoryLabel;
+    const type = typeof meta.type === 'string' ? meta.type : categoryLabel;
     const title = meta.title ?? id;
     const description = meta.description ?? `A ${category} project.`;
     const shortDescription = meta.shortDescription ?? description;
@@ -134,6 +139,7 @@ async function buildCache(): Promise<ProjectCache> {
     const project: InternalProject = {
       id,
       title,
+      type,
       category,
       subcategory: typeof meta.subcategory === 'string' ? meta.subcategory : null,
       shortDescription,
@@ -204,6 +210,7 @@ function toSummary(p: InternalProject): ProjectSummary {
   return {
     id: p.id,
     title: p.title,
+    type: p.type,
     category: p.category,
     subcategory: p.subcategory,
     tags: p.tags,
@@ -222,6 +229,7 @@ function toDetail(p: InternalProject): ProjectDetail {
   return {
     id: p.id,
     title: p.title,
+    type: p.type,
     category: p.category,
     tags: p.tags,
     color: p.color,
